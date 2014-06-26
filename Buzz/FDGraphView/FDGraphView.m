@@ -7,6 +7,7 @@
 //
 
 #import "FDGraphView.h"
+#import "Grade.h"
 
 @interface FDGraphView()
 
@@ -37,12 +38,17 @@
     if (_maxDataPoint) {
         return _maxDataPoint;
     } else {
-        __block CGFloat max = ((NSNumber *)self.dataPoints[0]).floatValue;
-        [self.dataPoints enumerateObjectsUsingBlock:^(NSNumber *n, NSUInteger idx, BOOL *stop) {
-            if (n.floatValue > max)
-                max = n.floatValue;
-        }];
-        return @(max);
+        if (self.dataPoints.count > 0) {
+            Grade *materia = self.dataPoints[0];
+            __block CGFloat max = ((NSNumber *)materia.value).floatValue;
+            [self.dataPoints enumerateObjectsUsingBlock:^(Grade *n, NSUInteger idx, BOOL *stop) {
+                if (n.value.floatValue > max)
+                    max = n.value.floatValue;
+            }];
+            return @(max);
+        }else{
+            return 0;
+        }
     }
 }
 
@@ -50,12 +56,17 @@
     if (_minDataPoint) {
         return _minDataPoint;
     } else {
-        __block CGFloat min = ((NSNumber *)self.dataPoints[0]).floatValue;
-        [self.dataPoints enumerateObjectsUsingBlock:^(NSNumber *n, NSUInteger idx, BOOL *stop) {
-            if (n.floatValue < min)
-                min = n.floatValue;
-        }];
-        return @(min);
+        if (self.dataPoints.count > 0) {
+            Grade *materia = self.dataPoints[0];
+            __block CGFloat min = ((NSNumber *)materia.value).floatValue;
+            [self.dataPoints enumerateObjectsUsingBlock:^(Grade *n, NSUInteger idx, BOOL *stop) {
+                if (n.value.floatValue < min)
+                    min = n.value.floatValue;
+            }];
+            return @(min);
+        }else{
+            return 0;
+        }
     }
 }
 
@@ -94,8 +105,8 @@
     if (count > 1) {
         for (int i = 0; i < count; ++i) {
             CGFloat x, y, dataPointValue;
-            
-            dataPointValue = ((NSNumber *)self.dataPoints[i]).floatValue;
+            Grade *voto = self.dataPoints[i];
+            dataPointValue = ((NSNumber *)voto.value).floatValue;
             
             x = self.edgeInsets.left + (drawingWidth/(count-1))*i;
             if (max != min)
