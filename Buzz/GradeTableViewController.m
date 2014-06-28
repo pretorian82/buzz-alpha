@@ -56,6 +56,11 @@
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60;
+}
+
 #pragma mark - Useful Method(s)
 
 - (NSMutableArray *)tableGrades
